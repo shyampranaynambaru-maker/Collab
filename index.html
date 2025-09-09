@@ -4,43 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Character Animation Dashboard</title>
+    <title>Pizza Hut Dashboard</title>
     <style>
+        /* Basic Styles */
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
-            overflow: hidden;
-            background-color: #f0f0f0;
+            padding: 0;
         }
 
-        #myCanvas {
-            width: 100vw;
-            height: 100vh;
-            display: block;
+        #header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        #dashboard {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        /* Pizza Menu Styles */
+        .menu-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
             padding: 15px;
+            width: 250px;
+            margin: 10px;
+            text-align: center;
             border-radius: 10px;
-            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
 
-        .control {
-            margin: 10px 0;
+        .menu-item:hover {
+            transform: scale(1.05);
         }
 
-        .control label {
-            display: block;
-            font-size: 14px;
-        }
-
-        .control input {
+        .menu-item img {
             width: 100%;
-            margin-top: 5px;
+            border-radius: 10px;
+        }
+
+        .menu-item h3 {
+            margin: 15px 0;
+            font-size: 20px;
+            color: #d32f2f;
+        }
+
+        .menu-item button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* Order Summary */
+        #order-summary {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #order-summary h2 {
+            font-size: 22px;
+            color: #d32f2f;
+        }
+
+        #order-summary ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #order-summary ul li {
+            padding: 5px 0;
+            font-size: 16px;
+        }
+
+        #order-summary .total {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Buttons */
+        .clear-btn, .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+
+        .checkout-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+        }
+
+        .clear-btn:hover {
+            background-color: #e53935;
+        }
+
+        .checkout-btn:hover {
+            background-color: #388e3c;
         }
 
     </style>
@@ -48,93 +142,82 @@
 
 <body>
 
-    <!-- Dashboard -->
-    <div id="dashboard">
-        <div class="control">
-            <label for="rotation">Rotation</label>
-            <input type="range" id="rotation" min="0" max="360" value="0">
+    <div id="header">
+        Pizza Hut Dashboard
+    </div>
+
+    <div class="container">
+        <!-- Pizza Menu Items -->
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/250x150/ff5733/ffffff?text=Margherita" alt="Margherita">
+            <h3>Margherita Pizza</h3>
+            <button onclick="addToOrder('Margherita Pizza', 12)">Add to Order - $12</button>
         </div>
-        <div class="control">
-            <label for="scale">Scale</label>
-            <input type="range" id="scale" min="0.1" max="2" step="0.1" value="1">
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/250x150/ff5733/ffffff?text=Pepperoni" alt="Pepperoni">
+            <h3>Pepperoni Pizza</h3>
+            <button onclick="addToOrder('Pepperoni Pizza', 14)">Add to Order - $14</button>
         </div>
-        <div class="control">
-            <label for="zoom">Zoom</label>
-            <input type="range" id="zoom" min="1" max="10" step="0.1" value="5">
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/250x150/ff5733/ffffff?text=Veggie" alt="Veggie">
+            <h3>Veggie Pizza</h3>
+            <button onclick="addToOrder('Veggie Pizza', 13)">Add to Order - $13</button>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://via.placeholder.com/250x150/ff5733/ffffff?text=BBQ" alt="BBQ Chicken">
+            <h3>BBQ Chicken Pizza</h3>
+            <button onclick="addToOrder('BBQ Chicken Pizza', 15)">Add to Order - $15</button>
         </div>
     </div>
 
-    <!-- Three.js Canvas -->
-    <canvas id="myCanvas"></canvas>
+    <div id="order-summary">
+        <h2>Order Summary</h2>
+        <ul id="order-items">
+            <!-- Order items will appear here -->
+        </ul>
+        <div class="total">Total: $<span id="total-price">0</span></div>
+        <button class="clear-btn" onclick="clearOrder()">Clear Order</button>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+    </div>
 
-    <!-- Three.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/examples/js/controls/OrbitControls.js"></script>
     <script>
+        let order = [];
+        let total = 0;
 
-        let scene, camera, renderer, model, controls;
-
-        // Set up basic scene elements
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.25;
-            controls.screenSpacePanning = false;
-
-            camera.position.z = 5;
-
-            // Add light
-            let light = new THREE.PointLight(0xFFFFFF, 1, 100);
-            light.position.set(0, 2, 3);
-            scene.add(light);
-
-            // Load model (example with a box geometry, replace with 3D model loader for your character)
-            let geometry = new THREE.BoxGeometry();
-            let material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
-            model = new THREE.Mesh(geometry, material);
-            scene.add(model);
-
-            animate();
+        // Add item to the order
+        function addToOrder(pizzaName, price) {
+            order.push({ pizzaName, price });
+            total += price;
+            updateOrderSummary();
         }
 
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
+        // Update the order summary on the dashboard
+        function updateOrderSummary() {
+            const orderItemsList = document.getElementById('order-items');
+            orderItemsList.innerHTML = '';
 
-            // Update rotation and scale based on user input
-            model.rotation.y = document.getElementById('rotation').value * Math.PI / 180;
-            model.scale.set(
-                document.getElementById('scale').value,
-                document.getElementById('scale').value,
-                document.getElementById('scale').value
-            );
+            order.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.pizzaName} - $${item.price}`;
+                orderItemsList.appendChild(li);
+            });
 
-            // Update camera zoom
-            camera.position.z = document.getElementById('zoom').value;
-
-            controls.update(); // Only required if controls.enableDamping = true, or if controls.auto-rotation is enabled.
-
-            renderer.render(scene, camera);
+            document.getElementById('total-price').textContent = total;
         }
 
-        // Handle window resizing
-        window.addEventListener('resize', function () {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+        // Clear the order
+        function clearOrder() {
+            order = [];
+            total = 0;
+            updateOrderSummary();
+        }
 
-        // Initialize the scene
-        init();
-
-    </script>
-
-</body>
-
-</html>
+        // Proceed to checkout (you can modify this with actual checkout logic)
+        function checkout() {
+            if (order.length === 0) {
+                alert('Please add some items to your order.');
+            } else {
+                alert(`Proceeding to checkout wit
