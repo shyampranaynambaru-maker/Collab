@@ -4,164 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Marketing Dashboard</title>
+    <title>3D Character Animation Dashboard</title>
     <style>
-        /* Reset some styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            display: flex;
-            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        #myCanvas {
+            width: 100vw;
             height: 100vh;
+            display: block;
         }
 
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar a:hover {
-            background-color: #34495e;
-        }
-
-        .sidebar .brand {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .header .title {
-            font-size: 28px;
-            font-weight: 600;
-        }
-
-        .header .search {
-            position: relative;
+        #dashboard {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
             width: 300px;
         }
 
-        .header input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 25px;
-            border: 1px solid #ddd;
+        .control {
+            margin: 10px 0;
         }
 
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        /* Dashboard Cards */
-        .cards {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            width: 23%;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card .value {
-            font-size: 32px;
-            font-weight: bold;
-            color: #2ecc71;
-        }
-
-        .card .label {
-            font-size: 16px;
-            color: #7f8c8d;
-        }
-
-        /* Chart Section */
-        .chart-container {
-            margin-top: 20px;
-        }
-
-        .chart-container canvas {
-            width: 100%;
-            height: 400px;
-            border-radius: 8px;
-        }
-
-        /* Dropdown Menu */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            border-radius: 8px;
-            top: 30px;
-        }
-
-        .dropdown:hover .dropdown-content {
+        .control label {
             display: block;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .footer {
-            margin-top: 50px;
-            text-align: center;
             font-size: 14px;
-            color: #7f8c8d;
+        }
+
+        .control input {
+            width: 100%;
+            margin-top: 5px;
         }
 
     </style>
@@ -169,100 +48,93 @@
 
 <body>
 
-    <div class="sidebar">
-        <div class="brand">DigiDash</div>
-        <a href="#" id="dashboard">Dashboard</a>
-        <a href="#" id="traffic">Traffic</a>
-        <a href="#" id="conversions">Conversions</a>
-        <a href="#" id="revenue">Revenue</a>
-
-        <div class="dropdown">
-            <a href="#">Settings</a>
-            <div class="dropdown-content">
-                <a href="#">Profile</a>
-                <a href="#">Privacy</a>
-                <a href="#">Logout</a>
-            </div>
+    <!-- Dashboard -->
+    <div id="dashboard">
+        <div class="control">
+            <label for="rotation">Rotation</label>
+            <input type="range" id="rotation" min="0" max="360" value="0">
+        </div>
+        <div class="control">
+            <label for="scale">Scale</label>
+            <input type="range" id="scale" min="0.1" max="2" step="0.1" value="1">
+        </div>
+        <div class="control">
+            <label for="zoom">Zoom</label>
+            <input type="range" id="zoom" min="1" max="10" step="0.1" value="5">
         </div>
     </div>
 
-    <div class="main-content">
-        <div class="header">
-            <div class="title">Digital Marketing Dashboard</div>
-            <div class="search">
-                <input type="text" placeholder="Search...">
-                <span class="search-icon">🔍</span>
-            </div>
-        </div>
+    <!-- Three.js Canvas -->
+    <canvas id="myCanvas"></canvas>
 
-        <div class="cards">
-            <div class="card">
-                <div class="value">2,345</div>
-                <div class="label">Visitors</div>
-            </div>
-            <div class="card">
-                <div class="value">120</div>
-                <div class="label">Leads</div>
-            </div>
-            <div class="card">
-                <div class="value">75%</div>
-                <div class="label">Conversion Rate</div>
-            </div>
-            <div class="card">
-                <div class="value">$23,000</div>
-                <div class="label">Revenue</div>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="chart"></canvas>
-        </div>
-
-        <div class="footer">
-            &copy; 2025 DigiDash. All rights reserved.
-        </div>
-    </div>
-
-    <!-- Add your JavaScript here -->
+    <!-- Three.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.139.0/examples/js/controls/OrbitControls.js"></script>
     <script>
-        // Toggle active page style
-        const links = document.querySelectorAll('.sidebar a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                links.forEach(link => link.classList.remove('active'));
-                link.classList.add('active');
-            });
+
+        let scene, camera, renderer, model, controls;
+
+        // Set up basic scene elements
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('myCanvas') });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.25;
+            controls.screenSpacePanning = false;
+
+            camera.position.z = 5;
+
+            // Add light
+            let light = new THREE.PointLight(0xFFFFFF, 1, 100);
+            light.position.set(0, 2, 3);
+            scene.add(light);
+
+            // Load model (example with a box geometry, replace with 3D model loader for your character)
+            let geometry = new THREE.BoxGeometry();
+            let material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+            model = new THREE.Mesh(geometry, material);
+            scene.add(model);
+
+            animate();
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update rotation and scale based on user input
+            model.rotation.y = document.getElementById('rotation').value * Math.PI / 180;
+            model.scale.set(
+                document.getElementById('scale').value,
+                document.getElementById('scale').value,
+                document.getElementById('scale').value
+            );
+
+            // Update camera zoom
+            camera.position.z = document.getElementById('zoom').value;
+
+            controls.update(); // Only required if controls.enableDamping = true, or if controls.auto-rotation is enabled.
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resizing
+        window.addEventListener('resize', function () {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
         });
 
-        // Sample chart (You can replace it with an actual data visualization library like Chart.js)
-        document.addEventListener('DOMContentLoaded', () => {
-            const ctx = document.getElementById('chart').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                    datasets: [{
-                        label: 'Revenue ($)',
-                        data: [1000, 1500, 1800, 2500, 2200, 2700, 3200],
-                        borderColor: '#3498db',
-                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
+        // Initialize the scene
+        init();
+
     </script>
 
-    <!-- Include Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
